@@ -1,5 +1,6 @@
 package com.spring.example.controller;
 
+import com.spring.example.exception.ProductNotFoundException;
 import com.spring.example.model.Product;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class ProductServiceController {
     public ResponseEntity<Object> getProduct(@PathVariable("id") String id) {
         Product product = productRepo.get(id);
         if (product != null) return new ResponseEntity<>(product, HttpStatus.OK);
-        else return new ResponseEntity<>("Not found product", HttpStatus.NOT_FOUND);
+        else throw new ProductNotFoundException();
     }
 
     @RequestMapping(value = "/products", method = RequestMethod.POST)
@@ -44,6 +45,7 @@ public class ProductServiceController {
 
     @RequestMapping(value = "products/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> updateProduct(@PathVariable("id") String id, @RequestBody Product product) {
+        if (!productRepo.containsKey(id)) throw new ProductNotFoundException();
         productRepo.remove(id);
         productRepo.put(id, product);
         return new ResponseEntity<>("Product is updated successfully", HttpStatus.OK);
@@ -51,6 +53,7 @@ public class ProductServiceController {
 
     @RequestMapping(value = "products/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> deleteProduct(@PathVariable("id") String id) {
+        if (!productRepo.containsKey(id)) throw new ProductNotFoundException();
         productRepo.remove(id);
         return new ResponseEntity<>("Product is deleted successfully", HttpStatus.OK);
     }
