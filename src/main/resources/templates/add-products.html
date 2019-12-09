@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Add Products</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(() => {
+                $("#btn-submit").click(() => {
+                    const productModel = {
+                        id: $("#product-id").val(),
+                        name: $("#product-name").val()
+                    };
+                    $.ajax({
+                        type: "POST",
+                        url: "http://localhost:8081/products",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        data: JSON.stringify(productModel),
+                        success(data) {
+                            alert(data);
+                        },
+                        error() {}
+                    });
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div>
+            <label>Id: </label>
+            <input type="text" id="product-id" required/>
+        </div>
+        <div>
+            <label>Name: </label>
+            <input type="text" id="product-name" required/>
+        </div>
+        <div>
+            <button id="btn-submit">Submit</button>
+        </div>
+    </body>
+</html>
