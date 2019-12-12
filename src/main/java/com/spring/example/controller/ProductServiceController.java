@@ -17,6 +17,7 @@ public class ProductServiceController {
     ProductService productService;
 
     @RequestMapping("products")
+    @CrossOrigin("http://localhost:80801")
     public ResponseEntity<Object> listProduct() {
         return new ResponseEntity<>(productService.listProduct(), HttpStatus.OK);
     }
