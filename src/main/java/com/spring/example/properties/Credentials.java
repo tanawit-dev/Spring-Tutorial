@@ -1,11 +1,14 @@
 package com.spring.example.properties;
 
+import org.hibernate.validator.constraints.Length;
+
 /**
  *
  * @author Tanawit Aeabsakul
  */
 public class Credentials {
     
+    @Length(max = 4, min = 1)
     private String authMethod;
     private String username;
     private String password;
