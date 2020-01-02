@@ -5,6 +5,7 @@
  */
 package com.spring.example.controller;
 
+import com.spring.example.exception.BookNotFoundException;
 import com.spring.example.model.Book;
 import com.spring.example.repository.BookRepository;
 import java.util.List;
@@ -43,7 +44,7 @@ public class BookController {
     
     @GetMapping("/{id}")
     public Book findOne(@PathVariable("id") Integer id) {
-        return bookRepository.findById(id).orElse(null);
+        return bookRepository.findById(id).orElseThrow(BookNotFoundException::new);
     }
     
     @PostMapping
@@ -54,13 +55,13 @@ public class BookController {
     
     @PutMapping("/{id}")
     public Book updateBook(@RequestBody Book book, @PathVariable Integer id) {
-        bookRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        bookRepository.findById(id).orElseThrow(BookNotFoundException::new);
         return bookRepository.save(book);
     }
     
     @DeleteMapping("/{id}")
     public void deleteBook(@PathVariable("id") Integer id) {
-        bookRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        bookRepository.findById(id).orElseThrow(BookNotFoundException::new);
         bookRepository.deleteById(id);
     }
     
